@@ -155,6 +155,7 @@ class MainTurnDemo extends Scene {
     this.timer.getXform().setPosition(50, 98);
     this.timer.setTextHeight(2);
   }
+
   _initAttackFont() {
     this.attackFont = new FontRenderable(' ');
     this.attackFont.setFont(this.font);

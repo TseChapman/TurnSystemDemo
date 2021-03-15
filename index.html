@@ -57,13 +57,17 @@
         <script type="text/javascript" src="src/TurnSystemAPI/Settings.js"></script>
         <script type="text/javascript" src="src/TurnSystemAPI/TurnSystem.js"></script>
         <script type="text/javascript" src="src/TurnSystemAPI/UserState.js"></script>
-
+        <script type="text/javascript" src="src/TurnSystemAPI/Action.js"></script>
+        
         <!-- Demo Scenes -->
-        <script type="text/javascript" src="src/Demo/User.js"></script>
-        <script type="text/javascript" src="src/Demo/AddRemovePlayerDemo.js"></script>
+        <script type="text/javascript" src="src/Demos/AddRemovePlayers/User.js"></script>
+        <script type="text/javascript" src="src/Demos/AddRemovePlayers/AddRemovePlayerDemo.js"></script>
         <script type="text/javascript" src="src/Demos/TurningDemo/Fighter.js"></script>
         <script type="text/javascript" src="src/Demos/TurningDemo/MainTurnDemo.js"></script>
-
+        <script type="text/javascript" src="src/Demos/ConditionalDemo/Player.js"></script>
+        <script type="text/javascript" src="src/Demos/ConditionalDemo/ConditionalDemo.js"></script>
+        <script type="text/javascript" src="src/Demos/PriorityDemo/PriorityPlayer.js"></script>
+        <script type="text/javascript" src="src/Demos//PriorityDemo/PriorityDemo.js"></script>
         <script type="text/javascript" src="src/Start/misc.js"></script>
    </head>
 
@@ -73,5 +77,20 @@
             Your browser does not support the HTML5 canvas.
             <!-- this message will show only if WebGL clearing failed -->
         </canvas>
+        <hr>
+        <span id="priority-controls" style="display:none">
+          <div>
+            <strong>Controls:</strong><br>
+            <strong>Space:</strong> Increase Score<br>
+          <strong>Escape:</strong> Start the Game<br><br>
+          Add Players Below By Entering A Name
+          </div>
+          <label>Player Name:</label>
+          <input id="player-submission" type="text" min="1" onkeydown="submitPlayer(event)">
+          <button onclick="removePlayer()">Remove Last Player</button>
+          <br>
+          <label>Player Color:</label>
+          <input id="color-submission" type="color">
+        </span>
     </body>
 </html>

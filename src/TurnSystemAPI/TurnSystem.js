@@ -21,7 +21,7 @@ class TurnSystem {
       this.settings.getTurnType() === 'priority' ||
       this.settings.getTurnType() === 'conditional'
     ) {
-      this.callbackFunction = this.settings.getCallback();
+      this.callbackFunction = this.settings.getCallbackFunction();
     }
     if (this.settings.getTurnType() === 'timed') {
       this.timeTicker = 0;
@@ -47,26 +47,26 @@ class TurnSystem {
   calculateNextTurn() {
     const turnType = this.settings.getTurnType();
     if (turnType === 'priority') {
-      this.callbackFunction(users);
-      console.log(`New order of turns: ${users}`);
+      this.callbackFunction(this.getAllUsers());
+      console.log(`New order of turns:`);
+      console.log(this.getAllUsers());
     }
 
     if (turnType === 'conditional') {
       const isMet = this.callbackFunction(this.getCurrentUser());
       console.log(`Is condition met: ${isMet}`);
+      if (isMet) {
+        this.getCurrentUser().isMetCondition = false; // reset the UserState's isMetCondition
+        this._shiftNextUser();
+      }
     }
 
     if (turnType === 'timed') {
       this.timeTicker++;
       /** assume 60 update calls per second */
       if (this.timeTicker === this.maxTime) {
-        const action = {
-          user: this.getCurrentUser(),
-          action: this.getCurrentUser().action(),
-        };
-        this.getCurrentUser().isActive = false;
-        this.users.push(this.users.shift());
-        this.getCurrentUser().isActive = true;
+        const action = this.getCurrentUser().action();
+        this._shiftNextUser();
         this.timeTicker = 0;
         return action;
       }
@@ -102,10 +102,46 @@ class TurnSystem {
   }
 
   /**
+   * @param {int} index
+   * Return the user at specific index.
+   */
+  getUserByIndex(index) {
+    if (index < this.getNumUsers()) {
+      return this.users[index];
+    }
+    return null;
+  }
+
+  /**
+   * @param {int} index
+   * Return the user at specific index.
+   */
+  getUserByIndex(index) {
+    if (index < this.getNumUsers()) {
+      return this.users[index];
+    }
+    return null;
+  }
+
+  /**
    * Returns the list of all users.
    */
   getAllUsers() {
     return this.users;
+  }
+
+  /**
+   * Return the number of users in the system
+   */
+  getNumUsers() {
+    return this.users.length;
+  }
+
+  /**
+   * Return the number of users in the system
+   */
+  getNumUsers() {
+    return this.users.length;
   }
 
   /**
@@ -153,8 +189,18 @@ class TurnSystem {
    */
   _findUserIndex(user) {
     for (let i = 0; i < this.users.length; i++) {
-      if (this.users[i] === user) return i;
+      if (this.users[i].equals(user)) return i;
     }
     return -1;
+  }
+
+  /**
+   * Turn the current player state to not active,
+   * then shift the users queue and set the first/new current player to active
+   */
+  _shiftNextUser() {
+    this.getCurrentUser().isActive = false;
+    this.users.push(this.users.shift());
+    this.getCurrentUser().isActive = true;
   }
 }

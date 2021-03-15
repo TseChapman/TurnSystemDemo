@@ -71,7 +71,7 @@ class Fighter extends UserState {
         ? this.moveToMake
         : Math.floor(Math.random() * this.skillSet.length);
     this.moveToMake = null;
-    return this.skillSet[moveIdx];
+    return new Action(this, this.skillSet[moveIdx]);
   }
 
   /**

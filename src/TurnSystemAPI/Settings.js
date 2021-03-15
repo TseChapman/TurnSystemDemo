@@ -99,8 +99,8 @@ Settings.Builder = class {
       return null;
     }
 
-    if (max <= 0) {
-      console.error('Minimum number of users must be 1.');
+    if (max < 2) {
+      console.error('Minimum number of users must be 2.');
       return null;
     }
 
